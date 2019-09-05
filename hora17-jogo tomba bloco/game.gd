@@ -7,6 +7,7 @@ func _ready():
 
 func _on_Block_won():
 	$LevelLoad.start()
+	
 
 func next_level():
 	var next_level = levels.get_next_level()
