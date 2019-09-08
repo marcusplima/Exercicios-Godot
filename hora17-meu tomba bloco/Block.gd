@@ -3,16 +3,19 @@ extends Spatial
 var rotating = false
 
 var current_position
-var rotate_node = "BaseRH"
 var direction
 var rotate_axis
+var offset
+var next_position
+var trans_x = 0
+var trans_y = 0
+var trans_z = 0
+var angulo = 0
+var corr = 0.5 / 90
 
 func _ready():
 	current_position = 'standing'
-	get_node(rotate_node).get_node("RigidBody").translate(Vector3(0,3,0))
-	get_node(rotate_node).get_node("RigidBody").set_use_custom_integrator(false)
-	
-	#get_node(rotate_node).get_node("RigidBody").set_use_custom_integrator(true)
+	get_node("RigidBody").translate(Vector3(0,3,0))
 
 func _input(event):
 	#para cada posição do bloco, o position3d deve ser reposicionado de acordo com o botao apertado
@@ -20,9 +23,12 @@ func _input(event):
 		print('pressed down')
 		match current_position:
 			'standing':
-				rotate_node = "BaseRH"
 				direction = -1
 				rotate_axis = 'z'
+				trans_y = 3
+				next_position = 'laid_front'
+				trans_x = 0
+				trans_z = 0
 			'laid_right':
 				pass
 			'laid_left':
@@ -30,19 +36,23 @@ func _input(event):
 			'laid_back':
 				pass
 			'laid_front':
-				pass
+				direction = -1
+				rotate_axis = 'z'
+				trans_y = -3
+				next_position = 'laid_upsidedown'
+				trans_x = -9
 			"laid_upsidedown":
 				pass
-		get_node(rotate_node).get_node("RigidBody").set_use_custom_integrator(true)
 		rotating = true
 
 	if event.is_action_pressed('ui_up'):
 		print('pressed up')
 		match current_position:
 			'standing':
-				rotate_node = "BaseLH"
-				direction = -1
+				direction = 1
 				rotate_axis = 'z'
+				trans_y = 3
+				next_position = 'laid_back'
 			'laid_right':
 				pass
 			'laid_left':
@@ -53,16 +63,16 @@ func _input(event):
 				pass
 			"laid_upsidedown":
 				pass
-		get_node(rotate_node).get_node("RigidBody").set_use_custom_integrator(true)
 		rotating = true
 		
 	if event.is_action_pressed('ui_left'):
 		print('pressed left')
 		match current_position:
 			'standing':
-				rotate_node = "BaseRH"
 				direction = 1
 				rotate_axis = 'x'
+				trans_y = 3
+				next_position = 'laid_left'
 			'laid_right':
 				pass
 			'laid_left':
@@ -73,30 +83,46 @@ func _input(event):
 				pass
 			"laid_upsidedown":
 				pass
-		get_node(rotate_node).get_node("RigidBody").set_use_custom_integrator(true)
 		rotating = true
 		
 	if event.is_action_pressed('ui_right'):
 		print('pressed right')
-		
-		
-var angulo = 0
+		match current_position:
+			'standing':
+				direction = -1
+				rotate_axis = 'x'
+				trans_y = 3
+				next_position = 'laid_right'
+			'laid_right':
+				pass
+			'laid_left':
+				pass
+			'laid_back':
+				pass
+			'laid_front':
+				pass
+			"laid_upsidedown":
+				pass
+		rotating = true
 
 func _physics_process(delta):#process(delta):
-	print($BaseRH/RigidBody.transform.origin)
 	if !rotating: return
 	angulo += 2
 	if angulo <= 90:
 		match rotate_axis:
 			'z':
-				get_node(rotate_node).rotate_z(deg2rad(direction * 2))
+				#rotate_z(deg2rad(direction * 2))
+				rotate_object_local(Vector3(0, 0, 1), deg2rad(direction * 2))
+				translate(Vector3(trans_x * corr, trans_y * corr, trans_z * corr))
 			'x':
-				get_node(rotate_node).rotate_x(deg2rad(direction * 2))
+				rotate_x(deg2rad(direction * 2))
+				translate(Vector3(trans_x * corr, trans_y * corr, trans_z * corr))
 			'y':
-				get_node(rotate_node).rotate_y(deg2rad(direction * 2))
+				pass
 	else:
 		rotating = false
 		angulo = 0
-		get_node(rotate_node).get_node("RigidBody").set_use_custom_integrator(false)
-		
+		current_position = next_position
+		print('current position: ', current_position)
+		print('next position: ', next_position)
 

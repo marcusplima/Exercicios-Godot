@@ -6,29 +6,26 @@
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 1, 2, 1 )
 
-[sub_resource type="BoxShape" id=3]
+[sub_resource type="BoxShape" id=2]
 extents = Vector3( 0.5, 1, 0.5 )
 
-[sub_resource type="SphereMesh" id=4]
+[sub_resource type="SphereMesh" id=3]
 radius = 0.15
 height = 0.3
 
 [node name="Block" type="Spatial"]
 script = ExtResource( 1 )
 
-[node name="BaseRH" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5 )
-
-[node name="RigidBody" type="RigidBody" parent="BaseRH"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5 )
+[node name="RigidBody" type="RigidBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 mass = 10.0
 
-[node name="MeshInstance" type="MeshInstance" parent="BaseRH/RigidBody"]
+[node name="MeshInstance" type="MeshInstance" parent="RigidBody"]
 mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
 
-[node name="CollisionShape" type="CollisionShape" parent="BaseRH/RigidBody"]
-shape = SubResource( 3 )
+[node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
+shape = SubResource( 2 )
 
 [node name="BaseLH" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -0.5 )
@@ -37,9 +34,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -0.5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2, 0.5 )
 
 [node name="MeshInstance" type="MeshInstance" parent="TopRH"]
-visible = false
-mesh = SubResource( 4 )
+mesh = SubResource( 3 )
 material/0 = ExtResource( 2 )
+
+[node name="BaseRH" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5 )
 
 [node name="TopLH" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2, -0.5 )
