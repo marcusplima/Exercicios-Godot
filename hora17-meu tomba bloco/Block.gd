@@ -34,15 +34,25 @@ func _input(event):
 			'laid_left':
 				pass
 			'laid_back':
-				pass
-			'laid_front':
 				direction = -1
 				rotate_axis = 'z'
 				trans_y = -3
+				next_position = 'standing'
+				trans_x = 0
+				trans_z = 0
+			'laid_front':
+				direction = -1
+				rotate_axis = 'z'
+				trans_y = 3.5#era 2
 				next_position = 'laid_upsidedown'
-				trans_x = -9
+				trans_x = -13.5#era 13
 			"laid_upsidedown":
-				pass
+				direction = -1
+				rotate_axis = 'z'
+				trans_y = -3
+				next_position = 'laid_back'
+				trans_x = -13
+				trans_z = 0
 		rotating = true
 
 	if event.is_action_pressed('ui_up'):
@@ -53,6 +63,8 @@ func _input(event):
 				rotate_axis = 'z'
 				trans_y = 3
 				next_position = 'laid_back'
+				trans_x = 0
+				trans_z = 0
 			'laid_right':
 				pass
 			'laid_left':
@@ -108,21 +120,23 @@ func _input(event):
 func _physics_process(delta):#process(delta):
 	if !rotating: return
 	angulo += 2
+	
 	if angulo <= 90:
 		match rotate_axis:
 			'z':
 				#rotate_z(deg2rad(direction * 2))
 				rotate_object_local(Vector3(0, 0, 1), deg2rad(direction * 2))
-				translate(Vector3(trans_x * corr, trans_y * corr, trans_z * corr))
+				translate_object_local(Vector3(trans_x * corr, trans_y * corr, trans_z * corr))
 			'x':
-				rotate_x(deg2rad(direction * 2))
-				translate(Vector3(trans_x * corr, trans_y * corr, trans_z * corr))
+				rotate_object_local(Vector3(1, 0, 0), deg2rad(direction * 2))
+				translate_object_local(Vector3(trans_x * corr, trans_y * corr, trans_z * corr))
 			'y':
 				pass
 	else:
 		rotating = false
+		transform.origin = transform.origin.snapped(Vector3(0.5, 0.5, 0.5))
 		angulo = 0
 		current_position = next_position
-		print('current position: ', current_position)
-		print('next position: ', next_position)
+		#print('current position: ', current_position)
+		#print('next position: ', next_position)
 

@@ -20,19 +20,21 @@ ambient_light_sky_contribution = 0.0
 [node name="Spatial" type="Spatial"]
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 3, 6, 3 )
+transform = Transform( 0.886461, -0.259835, 0.382979, 0.0310614, 0.859057, 0.510937, -0.46176, -0.44103, 0.769591, 5.25589, 6, 7.42291 )
 projection = 1
 current = true
-size = 5.0
+size = 10.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 2 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.941549, -0.330811, 0.063637, 0.0780449, 0.397968, 0.914074, -0.327711, -0.855679, 0.400524, 0, 0, 0 )
-light_energy = 0.64
+light_energy = 0.3
 shadow_enabled = true
 
 [node name="Block" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
 
 [node name="Spatial" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5 )
