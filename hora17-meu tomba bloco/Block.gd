@@ -23,6 +23,7 @@ var rot_x #Se o bloco vai rotacionar em torno do eixo x
 var rot_z #Se o bloco vai rotacionar em torno do eixo z
 var direction_axis #1 ou -1, inverte o sentido de translação
 var direction_angle #1 ou -1, inverte o sentido de rotação
+var rotation_ini
 
 
 func _ready():
@@ -44,15 +45,36 @@ func _input(event):
 			z_ini = transform.origin.z
 			z_end = transform.origin.z
 			angulo = 0.0 #zerar o angulo de rotação
+			rotation_ini = 0
 			direction_angle = 1 #Gira antihorário em z
 			direction_axis = -1 #Translação para y negativo
 			next_position = 'laying_x' #próxima posição deitado paralelamente ao eixo x
 			rot_x = 0 #rotacionar em Z
 			rot_z = 1
 			rotating = true #Pode iniciar rotação
+		if position == "laying_x":
+			x_center_offset = -1.0
+			y_center_offset = -0.5
+			z_center_offset = 0.0
+			x_center = transform.origin.x + x_center_offset
+			y_center = transform.origin.y + y_center_offset
+			z_center = transform.origin.z + z_center_offset
+			print('centro x: ', x_center, ' y: ', y_center,' z: ', z_center)
+			x_ini = transform.origin.x
+			x_end = x_ini - 1.5
+			z_ini = transform.origin.z
+			z_end = transform.origin.z
+			angulo = 0.0
+			rotation_ini = -90
+			direction_angle = 1
+			direction_axis = -1
+			next_position = 'standing'
+			rot_x = 0
+			rot_z = 1
+			rotating = true
 
 	if event.is_action_pressed("ui_down"):
-		print('pressed down')
+		print('pressed down**********************')
 		if position == "standing":
 			x_center_offset = 0.5
 			y_center_offset = -1.0
@@ -66,9 +88,50 @@ func _input(event):
 			z_ini = transform.origin.z
 			z_end = transform.origin.z
 			angulo = 0.0
+			rotation_ini = 0
 			direction_angle = -1
 			direction_axis = 1
 			next_position = 'laying_x'
+			rot_x = 0
+			rot_z = 1
+			rotating = true
+		if position == "laying_x":
+			x_center_offset = 1.0
+			y_center_offset = -0.5
+			z_center_offset = 0.0
+			x_center = transform.origin.x + x_center_offset
+			y_center = transform.origin.y + y_center_offset
+			z_center = transform.origin.z + z_center_offset
+			print('centro x: ', x_center, ' y: ', y_center,' z: ', z_center)
+			x_ini = transform.origin.x
+			x_end = x_ini + 1.5
+			z_ini = transform.origin.z
+			z_end = transform.origin.z
+			angulo = 0.0
+			rotation_ini = -90
+			direction_angle = -1
+			direction_axis = 1
+			next_position = 'standing'
+			rot_x = 0
+			rot_z = 1
+			rotating = true
+		if position == "laying_z":
+			x_center_offset = 0.5
+			y_center_offset = -0.5
+			z_center_offset = 0.0
+			x_center = transform.origin.x + x_center_offset
+			y_center = transform.origin.y + y_center_offset
+			z_center = transform.origin.z + z_center_offset
+			print('centro x: ', x_center, ' y: ', y_center,' z: ', z_center)
+			x_ini = transform.origin.x
+			x_end = x_ini + 1.0
+			z_ini = transform.origin.z
+			z_end = transform.origin.z
+			angulo = 0.0
+			rotation_ini = -90
+			direction_angle = -1
+			direction_axis = 1
+			next_position = 'laying_z'
 			rot_x = 0
 			rot_z = 1
 			rotating = true
@@ -88,9 +151,30 @@ func _input(event):
 			z_ini = transform.origin.z
 			z_end = transform.origin.z + 1.5
 			angulo = 0.0
+			rotation_ini = 0
 			direction_angle = 1
 			direction_axis = 1
 			next_position = 'laying_z'
+			rot_x = 1
+			rot_z = 0
+			rotating = true
+		if position == "laying_z":
+			x_center_offset = 0.0
+			y_center_offset = -0.5
+			z_center_offset = 1.0
+			x_center = transform.origin.x + x_center_offset
+			y_center = transform.origin.y + y_center_offset
+			z_center = transform.origin.z + z_center_offset
+			print('centro x: ', x_center, ' y: ', y_center,' z: ', z_center)
+			x_ini = transform.origin.x
+			x_end = x_ini 
+			z_ini = transform.origin.z
+			z_end = transform.origin.z + 1.5
+			angulo = 0.0
+			rotation_ini = 90
+			direction_angle = 1
+			direction_axis = 1
+			next_position = 'standing'
 			rot_x = 1
 			rot_z = 0
 			rotating = true
@@ -110,36 +194,60 @@ func _input(event):
 			z_ini = transform.origin.z
 			z_end = transform.origin.z - 1.5
 			angulo = 0.0
+			rotation_ini = 0
 			direction_angle = -1
 			direction_axis = -1
 			next_position = 'laying_z'
 			rot_x = 1
 			rot_z = 0
 			rotating = true
+		if position == "laying_z":
+			x_center_offset = 0.0
+			y_center_offset = -0.5
+			z_center_offset = -1.0
+			x_center = transform.origin.x + x_center_offset
+			y_center = transform.origin.y + y_center_offset
+			z_center = transform.origin.z + z_center_offset
+			print('centro x: ', x_center, ' y: ', y_center,' z: ', z_center)
+			x_ini = transform.origin.x
+			x_end = x_ini 
+			z_ini = transform.origin.z
+			z_end = transform.origin.z - 1.5
+			angulo = 0.0
+			rotation_ini = 90
+			direction_angle = -1
+			direction_axis = -1
+			next_position = 'standing'
+			rot_x = 1
+			rot_z = 0
+			rotating = true
+#var teste = 0
 
 func _physics_process(delta):
+	#teste +=1
+	#if teste <5: return
+	#teste = 0
 	if !rotating: return #Se nenhuma função solicitou rotação, sair
 	print('rotating')
 	if abs(angulo) <= 89: #Não finalizou a rotação, faça
 		if rot_z: #Calcula posição inicial baseada no eixo de rotação
-			y_ini = y_laying(x_ini - x_center + x_center_offset)
+			y_ini = y_ctr(x_ini - x_center + x_center_offset)
 			x_end = x_ini + ( direction_axis * 0.15)
 		if rot_x:
-			y_ini = y_laying(z_ini - z_center + z_center_offset)
+			#print('arg: ', z_ini - z_center + z_center_offset)
+			#print('z_ini: ', z_ini, ' / z_center: ', z_center, ' / z_center_offset: ',  z_center_offset)
+			y_ini = y_ctr(z_ini - z_center + z_center_offset)
 			z_end = z_ini + ( direction_axis * 0.15)
-			
+		
 		Position1.origin = Vector3(x_ini, y_ini, z_ini)# Grava posição inicial
 		
 		if rot_z: #Calcula a posição final baseada do eixo de rotação
-			y_end = y_laying(x_end - x_center + x_center_offset)
+			y_end = y_ctr(x_end - x_center + x_center_offset)
 		if rot_x:
-			y_end = y_laying(z_end - z_center + z_center_offset)
+			y_end = y_ctr(z_end - z_center + z_center_offset)
 			
 		Position2.origin = Vector3(x_end, y_end, z_end) #Grava a posição final
-		
-		print('z_ini: ', z_ini)
-		print('z_end: ', z_end)
-		print('z_center: ', z_center)
+
 		#calcula os vetores entre centro e as duas posições
 		var v1 = Vector3(x_ini, y_ini, z_ini) - Vector3(x_center, y_center, z_center)
 		var v2 = Vector3(x_end, y_end, z_end) - Vector3(x_center, y_center, z_center)
@@ -155,21 +263,29 @@ func _physics_process(delta):
 		if rot_x:
 			z_ini = z_ini + (direction_axis * 0.15)
 			
-		rotation_degrees = Vector3(rot_x * angulo, 0, rot_z * angulo)#Rotaciona o objeto
+		rotation_degrees = Vector3((rot_x * angulo) + (rot_x * rotation_ini), 0, (rot_z * angulo) + (rot_z *rotation_ini))#Rotaciona o objeto
+		print('rotation_degrees: ', rotation_degrees)
 	else: #Já finalizou a rotação, faça.
 		rotating = false #Não rodar mais
 		position = next_position #Armazenar posição do fim
 
-func y_laying(x):
+func y_ctr(x):
 	#Usar para deitar o bloco
 	#função de cálculo da altura baseada na equação da circunferência de giro
 	#do centro de gravidade em torno da aresta x² + y² = r²
 	x = abs(x)
-	return sqrt(((-1) * x * x) + x + 1.0)
-	
-func y_standing(x):
-	#Usar para levantar o bloco
-	#função de cálculo da altura baseada na equação da circunferência de giro
-	#do centro de gravidade em torno da aresta x² + y² = r²
-	x = abs(x)
-	return sqrt(((-1) * x * x) + (2 * x) + 0.5)
+	match position:
+		"laying_x":
+			match next_position:
+				'standing':
+					return sqrt(((-1.0) * x * x) + (2.0 * x) + 0.25)
+				"laying_x":
+					return sqrt(((-1.0) * x * x) + (1.0 * x) + 0.25)
+		"laying_z":
+				match next_position:
+					'standing':
+						return sqrt(((-1.0) * x * x) + (2.0 * x) + 0.25)
+					"laying_z":
+						return sqrt(((-1.0) * x * x) + (1.0 * x) + 0.25)
+		"standing":
+			return sqrt(((-1.0) * x * x) + (1.0 * x) + 1.0)
