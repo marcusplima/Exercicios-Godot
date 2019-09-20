@@ -1,7 +1,17 @@
-extends Spatial
+extends Spatial 
+
+#verificar conexões do gravitytimer!!!!!!!!!!!!!111
+
 #Variáveis para interpolação de posição
 var Position1 = Transform( Vector3(1, 0, 0), Vector3(0, 1, 0), Vector3(0, 0, 1), Vector3(0, 1, 0) )
 var Position2 = Transform( Vector3(1, 0, 0), Vector3(0, 1, 0), Vector3(0, 0, 1), Vector3(0, 1, 0) )
+
+signal won()
+export (NodePath) var start_point
+
+var won = false
+var lost = false
+var respawning = false
 
 var angulo = 0.0 #angulo de rotação do bloco
 var x_ini = 0.0 #posição inicial
@@ -36,7 +46,6 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("ui_up"):
 		if rotating: return
-		print('pressed up')
 		if position == "standing":
 			step = 0.15
 			x_center_offset = -0.5 #distância do eixo de rotação até o centro de massa
@@ -108,7 +117,6 @@ func _input(event):
 			rotating = true
 
 	if event.is_action_pressed("ui_down"):
-		print('pressed down**********************')
 		if rotating: return
 		if position == "standing":
 			step = 0.15
@@ -184,7 +192,6 @@ func _input(event):
 
 	if event.is_action_pressed("ui_left"):
 		if rotating: return
-		print('pressed left***********************')
 		if position == "standing":
 			step = 0.15
 			x_center_offset = 0.0
@@ -255,7 +262,6 @@ func _input(event):
 
 	if event.is_action_pressed("ui_right"):
 		if rotating: return
-		print('pressed right')
 		if position == "standing":
 			step = 0.15
 			x_center_offset = 0.0
@@ -323,10 +329,15 @@ func _input(event):
 			r_y = 0
 			r_z = -90
 			rotating = true
+			
+func _process(delta):
+	$RigidBody.gravity_scale = 1
 	$RigidBody.custom_integrator = false
-func _physics_process(delta):
 
+func _physics_process(delta):
 	if !rotating: return #Se nenhuma função solicitou rotação, sair
+	$RigidBody.gravity_scale = 0
+	$RigidBody.custom_integrator = true
 	if abs(angulo) <= 89: #Não finalizou a rotação, faça
 		if rot_z: #Calcula posição inicial baseada no eixo de rotação
 			if position == next_position:
@@ -410,7 +421,6 @@ func _physics_process(delta):
 	else: #Já finalizou a rotação, faça.
 		rotating = false #Não rodar mais
 		position = next_position #Armazenar posição do fim
-		$RigidBody.custom_integrator = false
 
 func y_ctr(x):
 	#Usar para deitar o bloco
@@ -432,3 +442,34 @@ func y_ctr(x):
 						return sqrt(((-1.0) * x * x) + (1.0 * x) + 0.25)
 		"standing":
 			return sqrt(((-1.0) * x * x) + (1.0 * x) + 1.0)
+
+func win():
+	won = true
+	emit_signal("won")
+
+func lose():
+	print('lose')
+	lost = true
+	$RespawnTimer.start()
+	
+func respawn():
+	if respawning: return
+	#translation = get_node(start_point).translation
+	lost = false
+	won = false
+	respawning = true
+	yield(get_tree(), "physics_frame")
+	var body = $RigidBody
+	body.gravity_scale = 1
+	#body.translation = Vector3()
+	#body.rotation = Vector3()
+	#body.angular_velocity = Vector3()
+	#body.linear_velocity = Vector3()
+	reset_properties()
+
+	$GravityTimer.start()
+	
+func reset_properties():
+	rotating = false
+	won = false
+	lost = false
