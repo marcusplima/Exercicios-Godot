@@ -22,7 +22,7 @@ ambient_light_sky_contribution = 0.0
 script = ExtResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.886461, -0.259835, 0.382979, 0.0310614, 0.859057, 0.510937, -0.46176, -0.44103, 0.769591, 5.25589, 6, 7.42291 )
+transform = Transform( 0.693589, -0.386602, 0.607843, 0.0310649, 0.859059, 0.510933, -0.719701, -0.335495, 0.607843, 12, 9, 7.423 )
 projection = 1
 current = true
 size = 10.0
@@ -36,10 +36,11 @@ light_energy = 0.3
 shadow_enabled = true
 
 [node name="Block" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5 )
 
 [node name="LevelLoad" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
 
 [node name="Level" parent="." instance=ExtResource( 4 )]
+[connection signal="won" from="Block" to="." method="_on_Block_won"]
+[connection signal="timeout" from="LevelLoad" to="." method="next_level"]

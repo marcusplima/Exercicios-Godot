@@ -1,13 +1,11 @@
-extends Spatial 
-
-#verificar conexões do gravitytimer!!!!!!!!!!!!!111
+extends Spatial
 
 #Variáveis para interpolação de posição
 var Position1 = Transform( Vector3(1, 0, 0), Vector3(0, 1, 0), Vector3(0, 0, 1), Vector3(0, 1, 0) )
 var Position2 = Transform( Vector3(1, 0, 0), Vector3(0, 1, 0), Vector3(0, 0, 1), Vector3(0, 1, 0) )
 
 signal won()
-export (NodePath) var start_point
+#export (NodePath) var start_point
 
 var won = false
 var lost = false
@@ -39,11 +37,13 @@ var r_x
 var r_z
 var r_y
 
-
 func _ready():
 	position = 'standing' #posição inicial
+	next_position = 'standing'
 
 func _input(event):
+	if respawning or lost or won == true: return
+	
 	if event.is_action_pressed("ui_up"):
 		if rotating: return
 		if position == "standing":
@@ -329,15 +329,10 @@ func _input(event):
 			r_y = 0
 			r_z = -90
 			rotating = true
-			
-func _process(delta):
-	$RigidBody.gravity_scale = 1
-	$RigidBody.custom_integrator = false
 
 func _physics_process(delta):
 	if !rotating: return #Se nenhuma função solicitou rotação, sair
-	$RigidBody.gravity_scale = 0
-	$RigidBody.custom_integrator = true
+
 	if abs(angulo) <= 89: #Não finalizou a rotação, faça
 		if rot_z: #Calcula posição inicial baseada no eixo de rotação
 			if position == next_position:
@@ -421,6 +416,11 @@ func _physics_process(delta):
 	else: #Já finalizou a rotação, faça.
 		rotating = false #Não rodar mais
 		position = next_position #Armazenar posição do fim
+		transform = transform.orthonormalized()
+		$RigidBody.angular_velocity = Vector3(0, 0, 0)
+		$RigidBody.linear_velocity = Vector3(0, 0, 0)
+		transform = transform.orthonormalized()
+		#$RigidBody.gravity_scale = 1
 
 func y_ctr(x):
 	#Usar para deitar o bloco
@@ -444,6 +444,7 @@ func y_ctr(x):
 			return sqrt(((-1.0) * x * x) + (1.0 * x) + 1.0)
 
 func win():
+	print('win')
 	won = true
 	emit_signal("won")
 
@@ -453,23 +454,47 @@ func lose():
 	$RespawnTimer.start()
 	
 func respawn():
+	print('respawn')
 	if respawning: return
-	#translation = get_node(start_point).translation
-	lost = false
-	won = false
+	
 	respawning = true
-	yield(get_tree(), "physics_frame")
+	var parent = get_parent()
 	var body = $RigidBody
+	body.gravity_scale = 0
+	
+	#print('translation: ', translation)
+	translation = parent.current_level.get_node("Start").translation
+	rotation = Vector3(0, 0, 0)
+	#print('body_translation: ', body.translation)
+	body.translation= Vector3(0, 14, 0)
+	
+	body.angular_velocity = Vector3(0, 0, 0)
+	body.linear_velocity = Vector3(0, 0, 0)
+	body.rotation_degrees = Vector3(0, 0, 0)
+	body.translation.y = 4
+	position = 'standing'
+	
+	#yield(get_tree(), "physics_frame")
 	body.gravity_scale = 1
-	#body.translation = Vector3()
-	#body.rotation = Vector3()
-	#body.angular_velocity = Vector3()
-	#body.linear_velocity = Vector3()
 	reset_properties()
-
 	$GravityTimer.start()
 	
 func reset_properties():
 	rotating = false
 	won = false
 	lost = false
+	$RigidBody.axis_lock_linear_y = false
+	$RigidBody.axis_lock_linear_x = false
+	$RigidBody.axis_lock_linear_z = false
+	
+func zero_gravity():
+	print('zero_gravity')
+	respawning = false
+	$RigidBody.gravity_scale = 0
+	$RigidBody.axis_lock_linear_y = true
+	$RigidBody.axis_lock_linear_x = true
+	$RigidBody.axis_lock_linear_z = true
+	
+	#$RigidBody.can_sleep = true
+	#$RigidBody.sleeping = true
+	#$RigidBody.custom_integrator = true

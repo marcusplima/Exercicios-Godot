@@ -10,11 +10,12 @@ data = {
 }
 
 [node name="Start" parent="." index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 4, -1.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, -1.5 )
 
 [node name="Ending" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, -1.5 )
 
 [node name="CollisionPolygon" parent="Inbounds" index="0"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, -10, 0 )
-polygon = PoolVector2Array( -20, -20, 20, -20, 20, 20, -20, 20 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0 )
+depth = 4.0
+polygon = PoolVector2Array( 0, 0, 9, 0, 9, -4, 0, -4 )

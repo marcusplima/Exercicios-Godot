@@ -21,7 +21,7 @@ __meta__ = {
 }
 
 [node name="Start" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 
 [node name="Ending" type="Area" parent="."]
 script = ExtResource( 2 )
@@ -37,4 +37,4 @@ script = ExtResource( 3 )
 
 [node name="CollisionPolygon" type="CollisionPolygon" parent="Inbounds"]
 [connection signal="body_entered" from="Ending" to="Ending" method="_on_Ending_body_entered"]
-[connection signal="body_entered" from="Inbounds" to="Inbounds" method="_on_Inbounds_body_entered"]
+[connection signal="area_exited" from="Inbounds" to="Inbounds" method="_on_Inbounds_area_exited"]

@@ -6,9 +6,11 @@ func _ready():
 	next_level()
 	
 func _on_Block_won():
+	print('block won Load level')
 	$LevelLoad.start()
 
 func next_level():
+	print('next level')
 	var next_level = levels.get_next_level()
 	if next_level == "":
 		return
@@ -19,7 +21,7 @@ func next_level():
 	current_level = load(next_level).instance()
 	add_child(current_level)
 	
-	$Block.start_point = str($Block.get_path_to(current_level)) + "/Start"
+	#$Block.start_point = str($Block.get_path_to(current_level)) + "/Start"
 	$Block.respawn()
 	
 	
