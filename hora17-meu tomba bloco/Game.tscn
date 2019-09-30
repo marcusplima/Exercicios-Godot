@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://sky-no clouds.jpg" type="Texture" id=2]
 [ext_resource path="res://Block.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Levels/level1.tscn" type="PackedScene" id=4]
 
 [sub_resource type="PanoramaSky" id=1]
 radiance_size = 0
@@ -40,7 +39,5 @@ shadow_enabled = true
 [node name="LevelLoad" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
-
-[node name="Level" parent="." instance=ExtResource( 4 )]
 [connection signal="won" from="Block" to="." method="_on_Block_won"]
 [connection signal="timeout" from="LevelLoad" to="." method="next_level"]

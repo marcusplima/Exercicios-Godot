@@ -17,5 +17,4 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, -3.5 )
 
 [node name="CollisionPolygon" parent="Inbounds" index="0"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0 )
-depth = 4.0
-polygon = PoolVector2Array( 0, 0, 3, 0, 3, -1, 6, -1, 6, -2, 9, -2, 9, -5, 6, -5, 6, -4, 3, -4, 2.94723, -3.02147, -0.045774, -3.0413 )
+polygon = PoolVector2Array( 0, 0, 3, 0, 3, -1, 6, -1, 6, -2, 9, -2, 9, -5, 6, -5, 6, -4, 3, -4, 3, -3, 0, -3 )

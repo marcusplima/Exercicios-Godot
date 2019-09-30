@@ -36,5 +36,6 @@ one_shot = true
 script = ExtResource( 3 )
 
 [node name="CollisionPolygon" type="CollisionPolygon" parent="Inbounds"]
+depth = 20.0
 [connection signal="body_entered" from="Ending" to="Ending" method="_on_Ending_body_entered"]
 [connection signal="area_exited" from="Inbounds" to="Inbounds" method="_on_Inbounds_area_exited"]

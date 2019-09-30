@@ -420,6 +420,7 @@ func _physics_process(delta):
 		$RigidBody.angular_velocity = Vector3(0, 0, 0)
 		$RigidBody.linear_velocity = Vector3(0, 0, 0)
 		transform = transform.orthonormalized()
+		print(translation)
 		#$RigidBody.gravity_scale = 1
 
 func y_ctr(x):
@@ -498,3 +499,7 @@ func zero_gravity():
 	#$RigidBody.can_sleep = true
 	#$RigidBody.sleeping = true
 	#$RigidBody.custom_integrator = true
+	
+func _process(delta):
+	pass
+	#print('gravity: ', $RigidBody.gravity_scale)
