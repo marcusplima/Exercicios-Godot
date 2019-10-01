@@ -9,7 +9,7 @@ var current_level
 
 func _enter_tree():
 	var dir = Directory.new()
-	
+	connect("levels_ended",self,"gameOver")
 	dir.open(levels_path)
 	dir.list_dir_begin()
 	var file = dir.get_next()
@@ -26,6 +26,10 @@ func get_next_level():
 	current_level += 1
 	if current_level == level_list.size():
 		emit_signal("levels_ended")
+		
 		return ""
 	return level_list[current_level]
 	
+func gameOver():
+	print('game over')
+	get_tree().change_scene("res://game_over.tscn")

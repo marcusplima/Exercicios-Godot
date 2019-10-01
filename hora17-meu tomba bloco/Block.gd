@@ -36,6 +36,7 @@ var step
 var r_x
 var r_z
 var r_y
+var rotations = 0
 
 func _ready():
 	position = 'standing' #posição inicial
@@ -46,6 +47,7 @@ func _input(event):
 	
 	if event.is_action_pressed("ui_up"):
 		if rotating: return
+		rotations +=1
 		if position == "standing":
 			step = 0.15
 			x_center_offset = -0.5 #distância do eixo de rotação até o centro de massa
@@ -118,6 +120,7 @@ func _input(event):
 
 	if event.is_action_pressed("ui_down"):
 		if rotating: return
+		rotations +=1
 		if position == "standing":
 			step = 0.15
 			x_center_offset = 0.5
@@ -192,6 +195,7 @@ func _input(event):
 
 	if event.is_action_pressed("ui_left"):
 		if rotating: return
+		rotations +=1
 		if position == "standing":
 			step = 0.15
 			x_center_offset = 0.0
@@ -262,6 +266,7 @@ func _input(event):
 
 	if event.is_action_pressed("ui_right"):
 		if rotating: return
+		rotations +=1
 		if position == "standing":
 			step = 0.15
 			x_center_offset = 0.0
@@ -484,6 +489,7 @@ func reset_properties():
 	rotating = false
 	won = false
 	lost = false
+	rotations = 0
 	$RigidBody.axis_lock_linear_y = false
 	$RigidBody.axis_lock_linear_x = false
 	$RigidBody.axis_lock_linear_z = false
@@ -501,5 +507,4 @@ func zero_gravity():
 	#$RigidBody.custom_integrator = true
 	
 func _process(delta):
-	pass
-	#print('gravity: ', $RigidBody.gravity_scale)
+	$HBoxContainer/CountMov.text = str(rotations)

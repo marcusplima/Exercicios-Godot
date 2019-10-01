@@ -67,5 +67,26 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0 )
 visible = false
 mesh = SubResource( 5 )
 material/0 = null
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_top = 13.0
+margin_right = 88.0
+margin_bottom = 27.0
+custom_colors/font_color = Color( 0.419608, 0.419608, 0.419608, 1 )
+text = "Movimentos: "
+
+[node name="CountMov" type="Label" parent="HBoxContainer"]
+margin_left = 92.0
+margin_top = 13.0
+margin_right = 100.0
+margin_bottom = 27.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
 [connection signal="timeout" from="GravityTimer" to="." method="zero_gravity"]
 [connection signal="timeout" from="RespawnTimer" to="." method="respawn"]
