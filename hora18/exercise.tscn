@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="ProceduralSky" id=1]
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 1 )
+tonemap_mode = 1
+auto_exposure_enabled = true
+auto_exposure_scale = 1.76
+auto_exposure_min_luma = 3.54
+auto_exposure_max_luma = 2.04
+auto_exposure_speed = 0.01
+
+[node name="Spatial" type="Spatial"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
