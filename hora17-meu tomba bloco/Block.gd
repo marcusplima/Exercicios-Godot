@@ -41,6 +41,11 @@ var rotations = 0
 func _ready():
 	position = 'standing' #posição inicial
 	next_position = 'standing'
+	
+func _screenshot():
+	var img = get_viewport().get_texture().get_data()
+	img.flip_y()
+	img.save_png('screenshot.png')
 
 func _input(event):
 	if respawning or lost or won == true: return
@@ -335,6 +340,11 @@ func _input(event):
 			r_z = -90
 			rotating = true
 
+	if event.is_action_pressed("screenshot"):
+		_screenshot()
+
+
+		
 func _physics_process(delta):
 	if !rotating: return #Se nenhuma função solicitou rotação, sair
 

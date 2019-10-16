@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="hora20"
-run/main_scene="res://ex2.tscn"
+run/main_scene="res://ex3-2.tscn"
 config/icon="res://icon.png"
 
 [rendering]

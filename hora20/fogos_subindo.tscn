@@ -4,29 +4,29 @@
 [ext_resource path="res://fogos_subindo.gd" type="Script" id=2]
 [ext_resource path="res://quadrado_branco.png" type="Texture" id=3]
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.0132743, 0.0184502, 0.339483 )
 colors = PoolColorArray( 1, 1, 1, 0, 0.960938, 0.915894, 0.915894, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 2 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=3]
 max_value = 100.0
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.647274, 88.72 ), 0.0, 9.38988, 0, 0, Vector2( 0.986207, 93.12 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=5]
-curve = SubResource( 4 )
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=5]
 min_value = -0.05
 max_value = 0.05
 _data = [ Vector2( 0.0016882, 0.0052 ), 0.0, 0.0, 0, 0, Vector2( 0.0501072, 0.04136 ), 0.0, 0.0, 0, 0, Vector2( 0.16712, -0.02288 ), 0.0, 0.584187, 0, 1, Vector2( 0.280097, 0.04312 ), 0.0, 0.0, 0, 0, Vector2( 0.401145, -0.022 ), 0.0, 0.0, 0, 0, Vector2( 0.510087, 0.04048 ), 0.0, 0.0, 0, 0, Vector2( 0.647274, -0.01496 ), 0.0, 0.0, 0, 0, Vector2( 0.719903, 0.04048 ), 0.0, 0.0, 0, 0, Vector2( 0.84902, -0.01848 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.1224, 0.0, 1, 0 ]
 
-[sub_resource type="CurveTexture" id=7]
-curve = SubResource( 6 )
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
 
-[sub_resource type="ParticlesMaterial" id=1]
+[sub_resource type="ParticlesMaterial" id=7]
 flag_rotate_y = true
 flag_disable_z = true
 spread = 2.0
@@ -34,11 +34,11 @@ gravity = Vector3( 0, 10, 0 )
 angular_velocity = 0.03
 orbit_velocity = 0.0
 orbit_velocity_random = 0.11
-orbit_velocity_curve = SubResource( 7 )
+orbit_velocity_curve = SubResource( 6 )
 tangential_accel = 5.0
-damping_curve = SubResource( 5 )
+damping_curve = SubResource( 4 )
 scale = 0.1
-color_ramp = SubResource( 3 )
+color_ramp = SubResource( 2 )
 
 [sub_resource type="CircleShape2D" id=8]
 radius = 5.0
@@ -49,7 +49,7 @@ amount = 300
 lifetime = 0.5
 visibility_rect = Rect2( -100, 200, 200, -1000 )
 local_coords = false
-process_material = SubResource( 1 )
+process_material = SubResource( 7 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 
